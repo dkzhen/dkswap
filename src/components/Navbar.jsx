@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import React from "react";
 import NavLink from "./NavLink";
 import { Link } from "react-router-dom";
@@ -10,8 +10,14 @@ import {
     useNetwork,
 } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
+import AppContext from "../utils/AppContext";
 
 export default function Navbar() {
+    const appContext = useContext(AppContext);
+
+    const handleChainSelection = (chainId) => {
+        appContext.setChainId(chainId);
+    };
     const { chain } = useNetwork();
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
     const { switchNetwork } = useSwitchNetwork();
@@ -31,7 +37,7 @@ export default function Navbar() {
     const [network, setNetwork] = useState("Ethereum");
     const [idNetwork, setIdNetwork] = useState(1);
     const [logo, setLogo] = useState(
-        "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+        "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
     );
     const { isConnected, status } = useAccount();
     const { connect } = useConnect({
@@ -51,7 +57,7 @@ export default function Navbar() {
         {
             name: "Ethereum",
             chainId: 1,
-            logo: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+            logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
         },
         {
             name: "Base",
@@ -86,7 +92,7 @@ export default function Navbar() {
                         className="flex flex-row items-center bg-slate-300 pl-2 rounded-md text-black"
                     >
                         <img
-                            className="w-5 h-5 bg-transparent"
+                            className="w-5 h-5 bg-transparent rounded-full"
                             src={logo} // Use the logo state here to reflect the selected network's logo
                             alt="logo"
                         />
@@ -106,14 +112,17 @@ export default function Navbar() {
                                         onClick={() => {
                                             switchToChain(option.chainId);
                                             setNetwork(option.name);
-                                            setLogo(option.logo); // Call setLogo function with the selected logo
+                                            setLogo(option.logo);
+                                            handleChainSelection(
+                                                option.chainId,
+                                            );
                                             setIsDropdownVisible(true);
                                             setIdNetwork(option.chainId);
                                         }}
                                     >
                                         <img
                                             src={option.logo}
-                                            className="w-5 h-5"
+                                            className="w-5 h-5 rounded-full"
                                             alt="logo"
                                         />
                                         {option.name}

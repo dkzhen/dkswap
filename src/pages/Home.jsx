@@ -1,36 +1,93 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+
 import Navbar from "../components/Navbar";
 import { FiArrowDown, FiSettings } from "react-icons/fi";
-import { ethers } from "ethers";
-import { useBalance, useAccount } from "wagmi";
-
+import { useBalance, useNetwork, useAccount, useSwitchNetwork } from "wagmi";
+import {
+    ListTokensChainBase,
+    ListTokensChainGoerli,
+    ListTokensChainEthereum,
+    initialTokenList,
+} from "../utils/TokenList";
+import AppContext from "../utils/AppContext";
 export default function Home() {
-    const { address, isConnected } = useAccount();
+    const appContext = useContext(AppContext);
+    const selectedChainId = appContext.chainId;
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    const [isDropdownVisible2, setIsDropdownVisible2] = useState(false);
+    const { chain } = useNetwork();
+    const { isConnected, address } = useAccount();
+    let chainId;
+    isConnected ? (chainId = chain.id) : (chainId = 0);
+    const toggleDropdown = () => {
+        setIsDropdownVisible((prevState) => !prevState);
+    };
+    const toggleDropdown2 = () => {
+        setIsDropdownVisible2((prevState) => !prevState);
+    };
+    const toggleMiddle = () => {
+        // Swap selectedToken and selectedToken2
+        const tempToken = selectedToken;
+        setSelectedToken(selectedToken2);
+        setSelectedToken2(tempToken);
+        const tempInitToken = initialToken;
+        setInitialToken(initialToken2);
+        setInitialToken2(tempInitToken);
+    };
+
+    let tokenList;
+    if (chainId === 1) {
+        tokenList = ListTokensChainEthereum;
+    } else if (chainId === 84531) {
+        tokenList = ListTokensChainBase;
+    } else if (chainId === 5) {
+        tokenList = ListTokensChainGoerli;
+    } else {
+        // Default to Ethereum if the chainId is not recognized
+        tokenList = initialTokenList;
+    }
+    const ethToken = [
+        {
+            name: "ETH",
+            idchain: 5,
+            img: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+            contract: "0xf17FF940864351631b1be3ac03702dEA085ba51c",
+        },
+    ];
 
     const { data } = useBalance({
         address: address,
     });
-
-    // const infuraProvider = new ethers.providers.JsonRpcProvider('https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID');
-
-    // const getETHBalance = async (address) => {
-    //     try {
-    //       const balance = await infuraProvider.getBalance(address);
-    //       return ethers.utils.formatEther(balance);
-    //     } catch (error) {
-    //       console.error('Error fetching balance:', error);
-    //       return '0';
-    //     }
-    //   };
+    const [initialToken, setInitialToken] = useState(ethToken[0]);
+    const [initialToken2, setInitialToken2] = useState(ethToken[0]);
+    const [selectedToken, setSelectedToken] = useState(ethToken[0]);
+    const [selectedToken2, setSelectedToken2] = useState(ethToken[0]);
+    const balance = useBalance({
+        address: address,
+        token: selectedToken.contract,
+    });
+    const balance2 = useBalance({
+        address: address,
+        token: selectedToken2.contract,
+    });
+    const { switchNetwork } = useSwitchNetwork();
+    const switchToChain = (chainId) => {
+        if (switchNetwork) {
+            switchNetwork(chainId);
+        }
+    };
+    const handleSwap = () => {
+        alert("sukses");
+    };
 
     return (
         <>
             <Navbar />
-            <div className="flex justify-center items-center  p-8 text-blue-300 ">
+            <div className="flex justify-center items-center p-8 text-blue-300 ">
                 <div
-                    className={` w-[446px] border-2 rounded-xl border-white ${
+                    className={`w-[446px] border-2 rounded-xl border-white ${
                         isConnected ? "h-[350px]" : "h-[300px]"
-                    }  flex flex-col `}
+                    } flex flex-col `}
                 >
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row p-4 gap-4">
@@ -52,29 +109,74 @@ export default function Home() {
                                 type="number"
                                 className="w-full  h-[60px] rounded-md  bg-slate-600 focus:outline-none  focus:border-transparent pl-4 text-2xl pr-3 "
                             />
-                            <div className="w-[25%] flex flex-col items-center ">
-                                <div className="flex flex-row mt-2 p-2 gap-3 text-black mr-10 w-[120px] bg-slate-300 rounded-xl justify-around  items-center">
+                            <div className="w-[25%] flex flex-col items-center mr-3">
+                                <div
+                                    onClick={toggleDropdown}
+                                    className="cursor-pointer flex flex-row mt-2 p-2 gap-3 focus:border-none text-black mr-2 w-[120px] bg-slate-300 rounded-xl justify-around  items-center"
+                                >
                                     <img
-                                        src="https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880"
+                                        src={
+                                            isConnected
+                                                ? selectedToken.img
+                                                : initialToken.img
+                                        }
                                         alt="logo"
-                                        className="w-5 h-5 "
+                                        className=" w-5 h-5 rounded-full"
                                     />
-                                    <div>ETH</div>
+                                    <div>
+                                        {isConnected
+                                            ? selectedToken.name
+                                            : initialToken.name}
+                                    </div>
+
                                     <FiArrowDown />
                                 </div>
+                                {isDropdownVisible && (
+                                    <ul className="absolute mt-[50px] py-2 -ml-2 z-10 pr-3 bg-white border border-gray-300 rounded-md shadow-lg">
+                                        {tokenList.map((option, index) => (
+                                            <li
+                                                key={index}
+                                                className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex flex-row items-center gap-3"
+                                                onClick={() => {
+                                                    setInitialToken(
+                                                        initialTokenList[index],
+                                                    );
+                                                    setSelectedToken(
+                                                        tokenList[index],
+                                                    );
+                                                    setIsDropdownVisible(false);
+                                                }}
+                                            >
+                                                <img
+                                                    src={option.img}
+                                                    className="w-5 h-5 rounded-full"
+                                                    alt="logo"
+                                                />
+                                                {option.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                                 {isConnected ? (
-                                    <div className="-ml-12 py-2">
+                                    <div className="-ml-6 py-2">
                                         Balance:{" "}
-                                        {Number(data?.formatted).toFixed(3)}
+                                        {selectedToken.name === "ETH"
+                                            ? Number(data?.formatted).toFixed(3)
+                                            : Number(
+                                                  balance.data?.formatted || 0,
+                                              ).toFixed(3)}
                                     </div>
                                 ) : (
                                     ""
                                 )}
                             </div>
                         </label>
-                        <div className="bg-[#242424] rounded-lg p-[8px] cursor-pointer shadow-black drop-shadow-2xl z-10 ">
+                        <div
+                            onClick={toggleMiddle}
+                            className="bg-[#242424] rounded-lg p-[8px] cursor-pointer shadow-black drop-shadow-2xl z-10 "
+                        >
                             <svg
-                                className=" w-6 h-6  "
+                                className="w-6 h-6"
                                 xmlns="http://www.w3.org/2000/svg"
                                 height="1em"
                                 viewBox="0 0 512 512"
@@ -87,36 +189,137 @@ export default function Home() {
                         </div>
                         <label
                             htmlFor="swap1"
-                            className="flex flex-row w-full h-full bg-slate-600 rounded-xl -mt-4"
+                            className="flex flex-row w-full h-full relative bg-slate-600 rounded-xl -mt-4"
                         >
                             <input
                                 id="swap1"
                                 type="number"
-                                className="w-full  h-[60px] rounded-md  bg-slate-600 focus:outline-none  focus:border-transparent pl-4 text-2xl pr-3 "
+                                className="appearance-none w-full   h-[60px] rounded-md  bg-slate-600 focus:outline-none  focus:border-transparent pl-4 text-2xl pr-6 "
                             />
-                            <div className="w-[25%] flex flex-col items-center ">
-                            <div className="flex flex-row mt-2 p-2 gap-3 text-black mr-10 w-[120px] bg-slate-300 rounded-xl justify-around  items-center">
+                            <div className="w-[25%] flex flex-col items-center  mr-3 ">
+                                <div
+                                    onClick={toggleDropdown2}
+                                    className="cursor-pointer flex flex-row mt-2 p-2 gap-3 focus:border-none text-black mr-2 w-[120px] bg-slate-300 rounded-xl justify-around  items-center"
+                                >
                                     <img
-                                        src="https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880"
+                                        src={
+                                            isConnected
+                                                ? selectedToken2.img
+                                                : initialToken2.img
+                                        }
                                         alt="logo"
-                                        className="w-5 h-5 "
+                                        className=" w-5 h-5 rounded-full"
                                     />
-                                    <div>ETH</div>
+                                    <div>
+                                        {isConnected
+                                            ? selectedToken2.name
+                                            : initialToken2.name}
+                                    </div>
+
                                     <FiArrowDown />
                                 </div>
+                                {isDropdownVisible2 && (
+                                    <ul className="absolute mt-[50px] py-2 -ml-2 pr-3 bg-white border border-gray-300 rounded-md shadow-lg">
+                                        {tokenList.map((option, index) => (
+                                            <li
+                                                key={index}
+                                                className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex flex-row items-center gap-3"
+                                                onClick={() => {
+                                                    setInitialToken2(
+                                                        initialTokenList[index],
+                                                    );
+                                                    setSelectedToken2(
+                                                        tokenList[index],
+                                                    );
+                                                    setIsDropdownVisible2(
+                                                        false,
+                                                    );
+                                                }}
+                                            >
+                                                <img
+                                                    src={option.img}
+                                                    className="w-5 h-5 rounded-full"
+                                                    alt="logo"
+                                                />
+                                                {option.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                                 {isConnected ? (
-                                    <div className="-ml-12 py-2">
+                                    <div className="-ml-6 py-2">
                                         Balance:{" "}
-                                        {Number(data?.formatted).toFixed(3)}
+                                        {selectedToken2.name === "ETH"
+                                            ? Number(data?.formatted).toFixed(3)
+                                            : Number(
+                                                  balance2.data?.formatted || 0,
+                                              ).toFixed(3)}
                                     </div>
                                 ) : (
                                     ""
                                 )}
                             </div>
                         </label>
-                        <div className="bg-slate-600 mx-auto flex justify-center w-full py-4 rounded-lg mt-5">
-                            Select Token
-                        </div>
+
+                        <label
+                            htmlFor="btn-swap"
+                            className={` ${
+                                isConnected
+                                    ? chain.id === 1 && selectedChainId === 1
+                                        ? `bg-slate-600`
+                                        : chain.id === selectedChainId
+                                        ? `cursor-pointer bg-blue-500 text-black`
+                                        : `bg-red-500 cursor-pointer`
+                                    : `bg-slate-800`
+                            }  mx-auto flex justify-center w-full py-4 rounded-lg mt-5`}
+                        >
+                            {isConnected ? (
+                                chain.id === 1 && selectedChainId === 1 ? (
+                                    <div>Mainnet Coming Soon</div>
+                                ) : chain.id === selectedChainId ? (
+                                    selectedToken.name === "ETH" ||
+                                    selectedToken2.name === "ETH" ? (
+                                        <div>No Liquidity Pool</div>
+                                    ) : selectedToken.name ===
+                                      selectedToken2.name ? (
+                                        <div>Select other token</div>
+                                    ) : !tokenList.some(
+                                          (token) =>
+                                              token.name === selectedToken.name,
+                                      ) ? (
+                                        <div>Token not found</div>
+                                    ) : !tokenList.some(
+                                          (token) =>
+                                              token.name ===
+                                              selectedToken2.name,
+                                      ) ? (
+                                        <div>Token not found</div>
+                                    ) : (
+                                        <input
+                                            onClick={() => {
+                                                handleSwap();
+                                            }}
+                                            id="btn-swap"
+                                            className="cursor-pointer"
+                                            type="button"
+                                            value="Swap"
+                                        />
+                                    )
+                                ) : (
+                                    <input
+                                        onClick={() => {
+                                            switchToChain(selectedChainId);
+                                        }}
+                                        id="btn-swap"
+                                        className="cursor-pointer"
+                                        type="button"
+                                        value="Wrong Network"
+                                    />
+                                )
+                            ) : (
+                                <div>Select a token</div>
+                            )}
+                        </label>
                     </div>
                 </div>
             </div>

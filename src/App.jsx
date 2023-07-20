@@ -1,15 +1,33 @@
 import React from "react";
 import Router from "./components/Router";
-import { WagmiConfig, createConfig, mainnet } from "wagmi";
-import { createPublicClient, http } from "viem";
-export default function App() {
-    const config = createConfig({
-        autoConnect: true,
-        publicClient: createPublicClient({
-            chain: mainnet,
-            transport: http(),
+import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
+import { baseGoerli, goerli } from "wagmi/chains";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
+import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+    [mainnet, baseGoerli, goerli],
+    [
+        alchemyProvider({ apiKey: "DT1x7qjYkbtRRP9EdCj7fUupn7LneXqV" }),
+        publicProvider(),
+    ],
+);
+const config = createConfig({
+    autoConnect: true,
+    connectors: [
+        new MetaMaskConnector({
+            chains,
+            options: {
+                UNSTABLE_shimOnConnectSelectAccount: true,
+                shimDisconnect: true,
+            },
         }),
-    });
+    ],
+    publicClient,
+    webSocketPublicClient,
+});
+export default function App() {
     return (
         <>
             <WagmiConfig config={config}>
