@@ -80,6 +80,28 @@ export default function Home() {
         alert("sukses");
     };
 
+    const formattedBalance =
+  selectedToken.name === "ETH"
+    ? parseFloat(data?.formatted).toFixed(3)
+    : parseFloat(balance.data?.formatted || 0).toFixed(3);
+
+const finalBalance =
+  parseFloat(formattedBalance) === parseInt(formattedBalance)
+    ? parseInt(formattedBalance)
+    : formattedBalance;
+    const formattedBalance2 =
+  selectedToken2.name === "ETH"
+    ? parseFloat(data?.formatted).toFixed(3)
+    : parseFloat(balance2.data?.formatted || 0).toFixed(3);
+
+const finalBalance2 =
+  parseFloat(formattedBalance2) === parseInt(formattedBalance2)
+    ? parseInt(formattedBalance2)
+    : formattedBalance2;
+
+// Now you can use the "finalBalance" variable to display the balance.
+
+
     return (
         <>
             <Navbar />
@@ -160,11 +182,7 @@ export default function Home() {
                                 {isConnected ? (
                                     <div className="-ml-6 py-2">
                                         Balance:{" "}
-                                        {selectedToken.name === "ETH"
-                                            ? Number(data?.formatted).toFixed(3)
-                                            : Number(
-                                                  balance.data?.formatted || 0,
-                                              ).toFixed(3)}
+                                        {finalBalance}
                                     </div>
                                 ) : (
                                     ""
@@ -249,11 +267,7 @@ export default function Home() {
                                 {isConnected ? (
                                     <div className="-ml-6 py-2">
                                         Balance:{" "}
-                                        {selectedToken2.name === "ETH"
-                                            ? Number(data?.formatted).toFixed(3)
-                                            : Number(
-                                                  balance2.data?.formatted || 0,
-                                              ).toFixed(3)}
+                                        {finalBalance2}
                                     </div>
                                 ) : (
                                     ""
