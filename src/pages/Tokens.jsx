@@ -82,9 +82,9 @@ const handleClaim = async () => {
                         {/* head */}
                         <thead >
                             <tr >
-                                <th className="text-lg">Token Name</th>
-                                <th className="text-lg">Price</th>
-                                <th className="text-lg">Amount</th>
+                                <th className="text-lg text-blue-300">Token Name</th>
+                                <th className="text-lg text-blue-300">Price</th>
+                                <th className="text-lg text-blue-300">Amount</th>
                                 <th></th>
                             </tr>
                         </thead>
