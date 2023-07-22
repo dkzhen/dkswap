@@ -73,7 +73,7 @@ const handleClaim = async () => {
             </dialog>
             <Navbar />
 
-            <main className="flex w-full flex-col justify-start px-24">
+            <main className="flex w-full flex-col justify-start px-24 text-white">
                 <div className="text-4xl font-semibold py-4 ">
                     Top Tokens Available
                 </div>
