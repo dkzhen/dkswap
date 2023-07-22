@@ -29,19 +29,19 @@ function Tokens() {
 // const abi = ListTokensChainBase.map(items => items.abi)
     // const contractAddress = "";
     const { config } = usePrepareContractWrite({
-        address: contractAddress,
-        abi: abi,
-        functionName: "mint",
-    });
-    
-    const { data, isLoading, isSuccess, write } = useContractWrite(config);
-    
-    const handleClaim = async () => {
-        if (write && isSuccess) {
-            write();
-        }
-    };
-    
+    address: contractAddress,
+    abi: abi,
+    functionName: "mint",
+});
+
+const { data, isLoading, isSuccess, write } = useContractWrite(config);
+
+const handleClaim = async () => {
+    // if (write && isSuccess) {
+        write?.();
+    // }
+};
+
     return (
         <>
             <dialog id="my_modal_1" className="modal">
