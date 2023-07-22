@@ -81,33 +81,32 @@ export default function Home() {
     };
 
     const formattedBalance =
-  selectedToken.name === "ETH"
-    ? parseFloat(data?.formatted).toFixed(3)
-    : parseFloat(balance.data?.formatted || 0).toFixed(3);
+        selectedToken.name === "ETH"
+            ? parseFloat(data?.formatted).toFixed(3)
+            : parseFloat(balance.data?.formatted || 0).toFixed(3);
 
-const finalBalance =
-  parseFloat(formattedBalance) === parseInt(formattedBalance)
-    ? parseInt(formattedBalance)
-    : formattedBalance;
+    const finalBalance =
+        parseFloat(formattedBalance) === parseInt(formattedBalance)
+            ? parseInt(formattedBalance)
+            : formattedBalance;
     const formattedBalance2 =
-  selectedToken2.name === "ETH"
-    ? parseFloat(data?.formatted).toFixed(3)
-    : parseFloat(balance2.data?.formatted || 0).toFixed(3);
+        selectedToken2.name === "ETH"
+            ? parseFloat(data?.formatted).toFixed(3)
+            : parseFloat(balance2.data?.formatted || 0).toFixed(3);
 
-const finalBalance2 =
-  parseFloat(formattedBalance2) === parseInt(formattedBalance2)
-    ? parseInt(formattedBalance2)
-    : formattedBalance2;
+    const finalBalance2 =
+        parseFloat(formattedBalance2) === parseInt(formattedBalance2)
+            ? parseInt(formattedBalance2)
+            : formattedBalance2;
 
-// Now you can use the "finalBalance" variable to display the balance.
-
+    // Now you can use the "finalBalance" variable to display the balance.
 
     return (
         <>
             <Navbar />
             <div className="flex justify-center items-center p-8 text-blue-300 ">
                 <div
-                    className={`w-[446px] border-2 rounded-xl border-white ${
+                    className={`w-[446px] border-[0.5px] rounded-xl border-slate-300 ${
                         isConnected ? "h-[350px]" : "h-[300px]"
                     } flex flex-col `}
                 >
@@ -181,8 +180,7 @@ const finalBalance2 =
                                 )}
                                 {isConnected ? (
                                     <div className="-ml-6 py-2">
-                                        Balance:{" "}
-                                        {finalBalance}
+                                        Balance: {finalBalance}
                                     </div>
                                 ) : (
                                     ""
@@ -266,8 +264,7 @@ const finalBalance2 =
                                 )}
                                 {isConnected ? (
                                     <div className="-ml-6 py-2">
-                                        Balance:{" "}
-                                        {finalBalance2}
+                                        Balance: {finalBalance2}
                                     </div>
                                 ) : (
                                     ""
@@ -313,10 +310,11 @@ const finalBalance2 =
                                             onClick={() => {
                                                 handleSwap();
                                             }}
+                                            disabled
                                             id="btn-swap"
                                             className="cursor-pointer"
                                             type="button"
-                                            value="Swap"
+                                            value="Not Available"
                                         />
                                     )
                                 ) : (

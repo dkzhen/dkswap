@@ -42,6 +42,7 @@ export default function Navbar() {
     const { isConnected, status } = useAccount();
     const { connect } = useConnect({
         connector: new InjectedConnector(),
+        chainId: idNetwork
     });
     const { disconnect } = useDisconnect();
 
@@ -60,7 +61,7 @@ export default function Navbar() {
             logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
         },
         {
-            name: "Base",
+            name: "Base Goerli",
             chainId: 84531,
             logo: "https://assets.coingecko.com/nft_contracts/images/2989/large/base-introduced.png?1677298371",
         },
@@ -68,6 +69,11 @@ export default function Navbar() {
             name: "Goerli",
             chainId: 5,
             logo: "https://assets.coingecko.com/coins/images/29217/large//goerli-eth.png?1677429831",
+        },
+        {
+            name: "Base Mainnet",
+            chainId: 8453,
+            logo: "https://assets.coingecko.com/nft_contracts/images/2989/large/base-introduced.png?1677298371",
         },
         // Add more networks as needed
     ];
@@ -83,8 +89,8 @@ export default function Navbar() {
                         DKSWAP
                     </Link>
                     <NavLink href="/">Swap</NavLink>
-                    <NavLink href="/about">Liquidity</NavLink>
-                    <NavLink href="/gallery">Analyst</NavLink>
+                    <NavLink href="/liquidity">Liquidity</NavLink>
+                    <NavLink href="/tokens">Tokens</NavLink>
                 </nav>
                 <div className="flex items-center gap-4 pr-5 text-blue-300">
                     <label
@@ -104,7 +110,7 @@ export default function Navbar() {
                             className="cursor-pointer bg-slate-300 p-2 rounded-md pr-3"
                         />
                         {isDropdownVisible && (
-                            <ul className="absolute mt-48 py-2 -ml-2 pr-3 bg-white border border-gray-300 rounded-md shadow-lg">
+                            <ul className="absolute mt-[225px] py-2 -ml-2 z-10 pr-3 bg-white border border-gray-300 rounded-md shadow-lg">
                                 {dropdownOptions.map((option) => (
                                     <li
                                         key={option.chainId}
