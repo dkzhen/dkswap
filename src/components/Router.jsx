@@ -8,7 +8,7 @@ export default function Router() {
         <AppProvider>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/tokens" element={<Tokens />} />
+                <Route path="tokens" element={<Tokens />} />
             </Routes>
         </AppProvider>
     );
