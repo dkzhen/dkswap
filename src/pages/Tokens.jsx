@@ -33,22 +33,15 @@ function Tokens() {
         abi: abi,
         functionName: "mint",
     });
-
-    const hasInteracted =
-        localStorage.getItem(`hasInteracted_${contractAddress}`) === "true";
+    
     const { data, isLoading, isSuccess, write } = useContractWrite(config);
-
-    useEffect(() => {
-        if (isSuccess && !hasInteracted) {
-            localStorage.setItem(`hasInteracted_${contractAddress}`, "true");
-        }
-    }, [isSuccess, hasInteracted, contractAddress]);
-
+    
     const handleClaim = async () => {
-        if (!hasInteracted) {
-            write?.();
+        if (write && isSuccess) {
+            write();
         }
     };
+    
     return (
         <>
             <dialog id="my_modal_1" className="modal">
@@ -58,9 +51,7 @@ function Tokens() {
                         <p>Get free testnet token!</p>
                         <p
                             style={{
-                                cursor: hasInteracted
-                                    ?  "not-allowed"
-                                    : "pointer",
+                                cursor:"pointer",
                             }}
                             onClick={isConnected ? chain.id!=selectedChainId?chain.id==1?"": switchToChain : handleClaim : connect}
 
