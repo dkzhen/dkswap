@@ -97,7 +97,7 @@ export default function Navbar() {
 
     return (
         <div>
-            <div className="w-full py-3 flex justify-between text-md  items-center  ">
+            <div className="fixed top-0 left-0 right-0 z-50 bg-[#242424] w-full py-3 flex justify-between text-md  items-center  ">
                 <Link 
                     className="md:hidden md:px-6 px-5 font-semibold uppercase text-white"
                     to="/"
@@ -252,7 +252,7 @@ export default function Navbar() {
                 </div>
             </div>
             {isDropdownVisible && (
-                <ul className="md:hidden absolute bottom-[66px] text-white w-full py-2 z-50 md:z-10 pr-3 bg-slate-800 rounded-tl-md rounded-tr-md shadow-lg">
+                <ul className="fixed bottom-[66px] md:hidden  text-white w-full py-2 z-50 md:z-10 pr-3 bg-slate-800 rounded-tl-md rounded-tr-md shadow-lg">
                     {dropdownOptions.map((option) => (
                         <li
                             key={option.chainId}
