@@ -134,7 +134,7 @@ export default function Home() {
             
             <Navbar />
             
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between pb-52 md:pb-0">
                  
                     <div className="flex justify-center items-center p-8 text-blue-300 ">
                         <div
