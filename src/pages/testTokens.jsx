@@ -43,7 +43,7 @@ const handleClaim = async () => {
 };
 
     return (
-        <div className=" w-[98vw]">
+        <>
             <dialog id="my_modal_1" className="modal">
                 <form method="dialog" className="modal-box">
                     <h3 className="font-bold text-lg">Claim Faucet</h3>
@@ -71,16 +71,14 @@ const handleClaim = async () => {
                     </div>
                 </form>
             </dialog>
-            <div className="fixed top-0 left-0 right-0 z-10 bg-[#242424]">
             <Navbar />
-            </div>
 
-            <main className="pt-20 flex flex-col w-full justify-start overflow-y-auto md:min-h-0 min-h-screen  md:px-24 px-3 pb-3 md:pb-0 text-white">
+            <main className="flex w-full flex-col  justify-start overflow-y-auto md:min-h-0 min-h-screen  md:px-24 px-3 pb-3 md:pb-0 text-white">
                 <div className="text-4xl font-semibold py-4 ">
                     Top Tokens Available
                 </div>
                 <div className="overflow-x-auto">
-                    <table className="table bg-slate-600 mb-16 md:mb-4">
+                    <table className="table bg-slate-600 mb-16 md:mb-0">
                         {/* head */}
                         <thead >
                             <tr >
@@ -148,7 +146,7 @@ const handleClaim = async () => {
                 </div>
                 <div className="fixed bottom-0 left-0 w-full bg-[#242424]"><Footer /></div>
             </main>
-        </div>
+        </>
     );
 }
 

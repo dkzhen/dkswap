@@ -129,11 +129,9 @@ export default function Home() {
 
     return (
         <>
-          
-            <div className="h-screen w-screen  ">
-            <Navbar />
-                <div className="flex flex-col mt-20 justify-between">
-                 
+            <div className="flex flex-col justify-between h-full">
+                <div>
+                    <Navbar />
                     <div className="flex justify-center items-center p-8 text-blue-300 ">
                         <div
                             className={`w-[446px] border-[0.5px] rounded-xl border-slate-300 ${
@@ -393,7 +391,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#242424]"><Footer /></div>
+                <Footer />
             </div>
         </>
     );

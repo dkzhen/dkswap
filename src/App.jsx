@@ -1,13 +1,13 @@
-import React from "react";
+// import React from "react";
 import Router from "./components/Router";
 import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
-import { baseGoerli, goerli } from "wagmi/chains";
+import { base, baseGoerli, goerli } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
+// import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-    [mainnet, baseGoerli, goerli],
+    [mainnet, baseGoerli, goerli, base],
     [
         alchemyProvider({ apiKey: "DT1x7qjYkbtRRP9EdCj7fUupn7LneXqV" }),
         publicProvider(),
@@ -31,7 +31,7 @@ export default function App() {
     return (
         <>
             <WagmiConfig config={config}>
-                <main className="w-screen h-screen bg-[#242424]">
+                <main className=" bg-[#242424]">
                     <Router />
                 </main>
             </WagmiConfig>
