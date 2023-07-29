@@ -130,9 +130,11 @@ export default function Home() {
     return (
         <>
           
-            <div className="h-screen w-screen  ">
+            <div className=" w-screen  ">
+            <div className="fixed top-0 left-0 right-0 z-10 bg-[#242424]">
             <Navbar />
-                <div className="flex flex-col mt-20 h-[1vh] justify-between">
+            </div>
+                <div className="flex flex-col mt-20  justify-between">
                  
                     <div className="flex justify-center items-center p-8 text-blue-300 ">
                         <div
