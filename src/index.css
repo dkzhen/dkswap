@@ -7,6 +7,23 @@
         -webkit-appearance: none;
         margin: 0;
     }
+    /* Custom scrollbar styles for webkit-based browsers */
+    ::-webkit-scrollbar {
+        width: 8px; /* Adjust the width of the scrollbar */
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #f1f1f1; /* Set the background color of the track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #242424; /* Set the color of the thumb to green */
+        border-radius: 5px; /* Add rounded corners to the thumb */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #242424; /* Set the color of the thumb on hover to dark green */
+    }
 }
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

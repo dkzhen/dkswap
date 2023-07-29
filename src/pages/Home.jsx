@@ -192,7 +192,7 @@ export default function Home() {
                                             <FiArrowDown />
                                         </div>
                                         {isDropdownVisible && (
-                                            <ul className="absolute mt-[50px] py-2 -ml-2 z-10 pr-3 bg-white border border-gray-300 rounded-md shadow-lg">
+                                            <ul className="absolute mt-[50px] max-h-[214px] overflow-y-auto py-2 -ml-2 z-10 pr-3 bg-white border border-gray-300 rounded-md shadow-lg">
                                                 {tokenList.map(
                                                     (option, index) => (
                                                         <li
@@ -283,7 +283,7 @@ export default function Home() {
                                             <FiArrowDown />
                                         </div>
                                         {isDropdownVisible2 && (
-                                            <ul className="absolute mt-[50px] py-2 -ml-2 pr-3 bg-white border border-gray-300 rounded-md shadow-lg">
+                                            <ul className="absolute mt-[50px] py-2 max-h-[214px] overflow-y-auto -ml-2 pr-3 bg-white border border-gray-300 rounded-md shadow-lg">
                                                 {tokenList.map(
                                                     (option, index) => (
                                                         <li
