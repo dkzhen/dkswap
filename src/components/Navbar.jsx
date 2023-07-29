@@ -97,7 +97,7 @@ export default function Navbar() {
 
     return (
         <div>
-            <div className="w-full py-3 flex justify-between text-md  items-center ">
+            <div className="w-full py-3 flex justify-between text-md  items-center  ">
                 <Link 
                     className="md:hidden md:px-6 px-5 font-semibold uppercase text-white"
                     to="/"
