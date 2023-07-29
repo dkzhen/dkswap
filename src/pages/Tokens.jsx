@@ -71,9 +71,9 @@ const handleClaim = async () => {
                     </div>
                 </form>
             </dialog>
-            <div className="fixed top-0 left-0 right-0 z-10 bg-[#242424]">
+            {/* <div className="fixed top-0 left-0 right-0 z-10 bg-[#242424]"> */}
             <Navbar />
-            </div>
+            
 
             <main className="pt-20 flex flex-col w-full justify-start overflow-y-auto md:min-h-0 min-h-screen  md:px-24 px-3 pb-3 md:pb-0 text-white">
                 <div className="text-4xl font-semibold py-4 ">
