@@ -114,7 +114,7 @@ export default function Navbar() {
                     </Link>
 
                     <NavLink href="/">Swap</NavLink>
-                    <NavLink href="/liquidity">Liquidity</NavLink>
+                    <NavLink href="/">Liquidity</NavLink>
                     <NavLink href="/tokens">Tokens</NavLink>
                 </nav>
                 <div className="flex items-center gap-4 pr-5 text-blue-300">

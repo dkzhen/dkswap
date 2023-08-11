@@ -385,7 +385,7 @@ export const ListTokensChainEthereum = [
     },
 ];
 
-export const ListTokensChainBase = [
+export const ListTokensChainBaseGoerli = [
     {
         name: "USDC",
         idchain: 84531,

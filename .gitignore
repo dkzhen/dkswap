@@ -7,6 +7,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+src/pages/testHome.jsx
+src/pages/testNavbar.jsx
+src/pages/testTokens.jsx
 node_modules
 dist
 dist-ssr

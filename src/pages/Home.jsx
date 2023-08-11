@@ -2,18 +2,23 @@ import { useState, useContext, useRef, useEffect } from "react";
 
 import Navbar from "../components/Navbar";
 import { FiArrowDown, FiSettings } from "react-icons/fi";
-import { useBalance, useNetwork, useAccount, useSwitchNetwork } from "wagmi";
+import { useBalance,useConnect, useNetwork, useAccount, useSwitchNetwork } from "wagmi";
 import {
-    ListTokensChainBase,
+    ListTokensChainBaseGoerli,
     ListTokensChainGoerli,
     ListTokensChainEthereum,
     initialTokenList,
 } from "../utils/TokenList";
 import AppContext from "../utils/AppContext";
 import Footer from "../components/Footer";
+import { InjectedConnector } from "wagmi/connectors/injected";
 export default function Home() {
     const appContext = useContext(AppContext);
     const selectedChainId = appContext.chainId;
+    const { connect } = useConnect({
+        connector: new InjectedConnector(),
+        chainId: selectedChainId,
+    });
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
     const [isDropdownVisible2, setIsDropdownVisible2] = useState(false);
     const { chain } = useNetwork();
@@ -62,15 +67,23 @@ export default function Home() {
     }, []);
 
     let tokenList;
-    if (chainId === 1) {
-        tokenList = ListTokensChainEthereum;
-    } else if (chainId === 84531) {
-        tokenList = ListTokensChainBase;
-    } else if (chainId === 5) {
-        tokenList = ListTokensChainGoerli;
-    } else {
-        // Default to Ethereum if the chainId is not recognized
-        tokenList = initialTokenList;
+    switch (chainId) {
+        case 1:
+            tokenList = ListTokensChainEthereum;
+            break;
+        case 84531:
+            tokenList = ListTokensChainBaseGoerli;
+            break;
+        case 5:
+            tokenList = ListTokensChainGoerli;
+            break;
+        case 8453:
+            tokenList = ListTokensChainBaseGoerli;
+            break;
+
+        default:
+            tokenList = initialTokenList;
+            break;
     }
     const ethToken = [
         {
@@ -130,7 +143,7 @@ export default function Home() {
     return (
         <>
           
-            <div className=" w-screen  ">
+            <div className=" w-screen   ">
             
             <Navbar />
             
@@ -341,7 +354,7 @@ export default function Home() {
                                 >
                                     {isConnected ? (
                                         chain.id === 1 &&
-                                        selectedChainId === 1 ? (
+                                        selectedChainId === 1 || selectedChainId === 8453 ? (
                                             <div>Mainnet Coming Soon</div>
                                         ) : chain.id === selectedChainId ? (
                                             selectedToken.name === "ETH" ||
@@ -384,11 +397,11 @@ export default function Home() {
                                                 id="btn-swap"
                                                 className="cursor-pointer"
                                                 type="button"
-                                                value="Wrong Network"
+                                                value="Change Network"
                                             />
                                         )
                                     ) : (
-                                        <div>Select a token</div>
+                                        <div className="cursor-pointer" onClick={() => connect()}>Connect Wallet</div>
                                     )}
                                 </label>
                             </div>
